@@ -1,6 +1,9 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import dynamic from "next/dynamic"; // import dynamic from Next.js
+
 import WebApp from "@twa-dev/sdk";
 import { gameState, tasksState, userState } from "@/states/user-state";
 import { GameData, UserData, UserStatusResponse } from "@/lib/types/user-types";
@@ -55,6 +58,8 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   };
 
   useEffect(() => {
+    if (typeof window === "undefined") return; 
+
     let isMounted = true;
 
     const fetchGameDetails = async (firebaseId: string) => {
@@ -100,8 +105,9 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
     };
 
     const initializeUser = async () => {
+      if (typeof window === "undefined") return;
       try {
-        const user = WebApp.initDataUnsafe?.user;
+        const user = WebApp?.initDataUnsafe?.user;
 
         if (!user) throw new Error("Unable to fetch user data from Telegram");
 
@@ -115,7 +121,6 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
 
           if (!firebaseUserId) {
             throw new Error("User not found in the system");
-            return;
           }
 
           await fetchGameDetails(firebaseUserId);
@@ -142,9 +147,7 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
       }
     };
 
-     initializeUser();
-
-    // setLoading(false);
+    initializeUser();
 
     return () => {
       isMounted = false;
@@ -174,4 +177,5 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   );
 };
 
-export default LayoutWrapper;
+// Wrap component with dynamic and disable SSR
+export default dynamic(() => Promise.resolve(LayoutWrapper), { ssr: false });

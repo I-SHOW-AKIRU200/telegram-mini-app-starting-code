@@ -34,16 +34,16 @@ const SetReferral = () => {
 
   if (gameData.referredUserId) {
 
-  const handleCopy = () => {
-    if (userData.firebase_id) {
-      // Ensure it's not null
-      navigator.clipboard.writeText(userData.firebase_id);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000); // Hide notification after 2 seconds
-    } else {
-      console.error("No Firebase ID to copy");
-    }
-  };
+ const handleCopy = () => {
+   if (typeof window !== "undefined" && userData.firebase_id) {
+     navigator.clipboard.writeText(userData.firebase_id);
+     setIsCopied(true);
+     setTimeout(() => setIsCopied(false), 2000); // Hide notification after 2 seconds
+   } else {
+     console.error("No Firebase ID to copy or not running in the browser");
+   }
+ };
+
 
 
     return (

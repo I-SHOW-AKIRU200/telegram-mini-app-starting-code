@@ -19,7 +19,7 @@ const AdvertSlider = () => {
   const fetchData = async () => {
     if (bannerData.loading) {
       try {
-        const fetchedBanners: Banner[] | null = await fetchBanners();
+        const fetchedBanners: any = await fetchBanners();
         if (!fetchedBanners) throw new Error("Error fetching banners");
 
         setBanners(fetchedBanners);

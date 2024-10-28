@@ -34,11 +34,17 @@ const SetReferral = () => {
 
   if (gameData.referredUserId) {
 
-    const handleCopy = () => {
+  const handleCopy = () => {
+    if (userData.firebase_id) {
+      // Ensure it's not null
       navigator.clipboard.writeText(userData.firebase_id);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000); // Hide notification after 2 seconds
-    };
+    } else {
+      console.error("No Firebase ID to copy");
+    }
+  };
+
 
     return (
       <div className="text-center mx-5">

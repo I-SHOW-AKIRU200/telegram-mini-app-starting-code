@@ -2,26 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  margin: 0;
+  background-color: #000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.spinner-container {
+  position: relative;
+}
+
+.image {
+  display: block; /* Remove bottom space */
+  max-width: 100%; /* Ensure it scales down on smaller screens */
+  max-height: 80vh; /* Limit height for better scaling */
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px; /* Adjust size */
+  height: 80px; /* Adjust size */
+  border: 8px solid rgba(255, 255, 255, 0.2); /* Background of the spinner */
+  border-top: 8px solid #3498db; /* Spinner color */
+  border-radius: 50%;
+  animation: spin 1s linear infinite; /* Spinner animation */
+  transform: translate(-50%, -50%); /* Center the spinner */
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.progress-gradient {
+  background: linear-gradient(to right, #90ef89, #d692dd, #726edd);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+.top-glow {
+  box-shadow: 0 -26px 20px rgba(243, 186, 47, 0.3);
+}
+
+/* Define the keyframes for the blinking animation */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Apply the animation to the dot class */
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  animation: blink 1s infinite;
+}
+
+.circle-outer {
+  background: linear-gradient(to bottom, #00ff00, #202731);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90vw;
+  height: 90vw;
+  max-width: 360px;
+  max-height: 360px;
+}
+
+.circle-inner {
+  background: radial-gradient(circle, #006400, #282e3e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes float {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
   }
 }

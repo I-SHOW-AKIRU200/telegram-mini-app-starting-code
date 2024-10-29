@@ -23,13 +23,6 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   const [userData, setUserData] = useRecoilState<UserData>(userState);
   const [gameData, setGameData] = useRecoilState<GameData>(gameState);
   const [tasksData, setTasksData] = useRecoilState<any>(tasksState);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
-
-  useLayoutEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return;
 
   const verifyUser = async (
     userId: number,
@@ -114,7 +107,6 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
     const initializeUser = async () => {
       if (typeof window === "undefined") return;
       try {
-
         const { default: WebApp } = await import("@twa-dev/sdk");
 
         const user = WebApp?.initDataUnsafe?.user;
@@ -157,7 +149,8 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
       }
     };
 
-    initializeUser();
+    // initializeUser();
+    setLoading(false);
 
     return () => {
       isMounted = false;

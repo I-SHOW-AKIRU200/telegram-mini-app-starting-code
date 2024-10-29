@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import dynamic from "next/dynamic"; // import dynamic from Next.js
 
-import WebApp from "@twa-dev/sdk";
+// import WebApp from "@twa-dev/sdk";
 import { gameState, tasksState, userState } from "@/states/user-state";
 import { GameData, UserData, UserStatusResponse } from "@/lib/types/user-types";
 import LoadingSpinnerBackground from "@/components/elements/loading-spinner-background";
@@ -23,6 +23,13 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   const [userData, setUserData] = useRecoilState<UserData>(userState);
   const [gameData, setGameData] = useRecoilState<GameData>(gameState);
   const [tasksData, setTasksData] = useRecoilState<any>(tasksState);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useLayoutEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return;
 
   const verifyUser = async (
     userId: number,
@@ -58,7 +65,7 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   };
 
   useEffect(() => {
-    if (typeof window === "undefined") return; 
+    if (typeof window === "undefined") return;
 
     let isMounted = true;
 
@@ -107,6 +114,9 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
     const initializeUser = async () => {
       if (typeof window === "undefined") return;
       try {
+
+        const { default: WebApp } = await import("@twa-dev/sdk");
+
         const user = WebApp?.initDataUnsafe?.user;
 
         if (!user) throw new Error("Unable to fetch user data from Telegram");

@@ -1,5 +1,3 @@
-"use client";
-
 import { updatePoints } from "@/lib/database/update-data";
 import { GameData, UserData } from "@/lib/types/user-types";
 import { gameState, userState } from "@/states/user-state";
@@ -100,7 +98,8 @@ const IndividualTask = ({ task }: any) => {
             href={task.link}
             className="underline text-sm text-blue-400 truncate hover:cursor-pointer"
           >
-            <InsertLink /> {task.link.substr(0, 20)}
+            <InsertLink />{" "}
+            {typeof task.link === "string" ? task.link.substring(0, 20) : ""}
           </a>
         </span>
 

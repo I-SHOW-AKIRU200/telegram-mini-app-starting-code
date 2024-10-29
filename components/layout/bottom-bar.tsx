@@ -26,7 +26,7 @@ const BottomBar = () => {
             alt="Exchange"
             className="w-8 h-8 mx-auto rounded-full"
           />
-          <p className="mt-1">Exchange</p>
+          <p className="mt-1">Earn</p>
         </Link>
 
         <Link
@@ -36,7 +36,7 @@ const BottomBar = () => {
           }`}
         >
           <MonetizationOn />
-          <p className="mt-1">Earn</p>
+          <p className="mt-1">Tasks</p>
         </Link>
 
         <Link

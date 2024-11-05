@@ -44,6 +44,7 @@ export const userState = atom<UserData>({
     last_name: null,
     is_premium: true,
     firebase_id: "N9yXovN5ewoafY9PEkK0",
+
     loading: false,
   },
 });
@@ -63,7 +64,8 @@ export const gameState = atom<GameData>({
 export const tasksState = atom<any>({
   key: "tasksData",
   default: {
-    tasks: [],
+    game_tasks: [],
+    tasks: ["BhQ05TcRaXboirkVnYRe", "hcoTHVGjMOe0BJz00YzF"],
     tasksCompeleted: 0,
   },
 });

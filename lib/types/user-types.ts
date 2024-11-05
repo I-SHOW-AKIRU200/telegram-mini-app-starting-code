@@ -5,6 +5,7 @@ export interface UserData {
   last_name: string | null;
   is_premium: boolean | null;
   firebase_id: string | null;
+  
   loading: boolean;
 }
 

@@ -12,7 +12,7 @@ const EarnComponent = () => {
   const [error, setError] = useState<boolean>(false);
 
   const fetchTasks = async () => {
-    if (tasksData.tasks.length == 0) {
+    if (tasksData.game_tasks.length == 0) {
       try {
         const response = await fetch(`/api/fetch/tasks`);
 
@@ -30,7 +30,7 @@ const EarnComponent = () => {
         setTasks(data);
         setTasksData((prevState: any) => ({
           ...prevState,
-          ["tasks"]: data,
+          ["game_tasks"]: data,
         }));
       } catch (error) {
         console.log("MiniStat Error: ", error);

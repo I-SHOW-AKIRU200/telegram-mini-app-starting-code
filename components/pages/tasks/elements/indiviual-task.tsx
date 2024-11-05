@@ -1,6 +1,6 @@
 import { updatePoints } from "@/lib/database/update-data";
 import { GameData, UserData } from "@/lib/types/user-types";
-import { gameState, userState } from "@/states/user-state";
+import { gameState, tasksState, userState } from "@/states/user-state";
 import {
   CheckCircle,
   InsertLink,
@@ -15,6 +15,7 @@ const IndividualTask = ({ task }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userData] = useRecoilState<UserData>(userState);
   const [gameData, setGameData] = useRecoilState<GameData>(gameState);
+  const [tasksData, setTasksData] = useRecoilState<any>(tasksState);
 
   const updateUserPoints = async (newPoints: number) => {
     try {
@@ -70,6 +71,12 @@ const IndividualTask = ({ task }: any) => {
     }
   };
 
+  console.log(task.id);
+  console.log(tasksData.tasks);
+  const isTaskCompleted = tasksData.tasks.includes(task.id);
+
+  console.log(isTaskCompleted);
+
   return (
     <>
       <div
@@ -105,15 +112,18 @@ const IndividualTask = ({ task }: any) => {
 
         <span className="flex-3 my-auto">
           <button
-            className="btn btn-active btn-sm"
-            onClick={() => verifyTask(task)}
+            className={`btn btn-sm ${
+              isTaskCompleted ? "btn-success" : "btn-active"
+            }`}
+            onClick={() => !isTaskCompleted && verifyTask(task)}
+            disabled={isTaskCompleted}
           >
             {loading ? (
               <span className="loading loading-spinner"></span>
             ) : (
               <CheckCircle />
             )}
-            Done
+            {isTaskCompleted ? "Already completed" : "Done"}
           </button>
         </span>
       </div>

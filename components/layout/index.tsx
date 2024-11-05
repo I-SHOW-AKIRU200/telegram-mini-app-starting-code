@@ -149,8 +149,8 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
       }
     };
 
-    // initializeUser();
-    setLoading(false);
+    initializeUser();
+    // setLoading(false);
 
     return () => {
       isMounted = false;

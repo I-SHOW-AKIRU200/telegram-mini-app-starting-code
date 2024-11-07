@@ -13,6 +13,7 @@ const EarnComponent = () => {
 
   const fetchTasks = async () => {
     console.log(tasksData);
+    
     if (tasksData.game_tasks.length == 0) {
       try {
         const response = await fetch(`/api/fetch/tasks`);

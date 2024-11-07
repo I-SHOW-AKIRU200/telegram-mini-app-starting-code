@@ -4,7 +4,6 @@ import { Cached } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import IndividualTask from "../tasks/elements/indiviual-task";
-import { ConsoleMessage } from "puppeteer";
 
 const EarnComponent = () => {
   const [tasksData, setTasksData] = useRecoilState<any>(tasksState);

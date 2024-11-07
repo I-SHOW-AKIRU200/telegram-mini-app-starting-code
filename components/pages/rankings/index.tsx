@@ -10,7 +10,7 @@ interface User {
 }
 
 const Rankings = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 

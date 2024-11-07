@@ -67,7 +67,7 @@ const Rankings = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {users.map((user: any, index: number) => (
               <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                 <th className="px-6 py-4">{index + 1}</th>
                 <td className="px-6 py-4">{user.username || "Anonymous"}</td>

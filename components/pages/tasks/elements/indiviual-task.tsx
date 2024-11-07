@@ -71,11 +71,8 @@ const IndividualTask = ({ task }: any) => {
     }
   };
 
-  console.log(task.id);
-  console.log(tasksData.tasks);
   const isTaskCompleted = tasksData.tasks.includes(task.id);
 
-  console.log(isTaskCompleted);
 
   return (
     <>

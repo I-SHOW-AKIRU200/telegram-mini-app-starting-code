@@ -4,6 +4,7 @@ import { Cached } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import IndividualTask from "../tasks/elements/indiviual-task";
+import { ConsoleMessage } from "puppeteer";
 
 const EarnComponent = () => {
   const [tasksData, setTasksData] = useRecoilState<any>(tasksState);
@@ -12,9 +13,8 @@ const EarnComponent = () => {
   const [error, setError] = useState<boolean>(false);
 
   const fetchTasks = async () => {
-    console.log(tasksData);
-    
     if (tasksData.game_tasks.length == 0) {
+      console.log("fish");
       try {
         const response = await fetch(`/api/fetch/tasks`);
 
@@ -29,6 +29,7 @@ const EarnComponent = () => {
         if (error) {
           throw new Error("Unable to fetch data from API route");
         }
+        console.log(data);
         setTasks(data);
         setTasksData((prevState: any) => ({
           ...prevState,
@@ -40,7 +41,10 @@ const EarnComponent = () => {
       } finally {
         setLoading(false);
       }
+    } else {
+      setTasks(tasksData.game_tasks);
     }
+
     setLoading(false);
   };
 

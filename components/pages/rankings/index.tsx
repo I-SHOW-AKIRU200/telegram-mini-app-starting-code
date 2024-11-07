@@ -2,7 +2,6 @@
 
 import { fetchTopUsers } from "@/lib/database/fetch-user";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion"; // If you're using framer-motion
 
 interface User {
   id: string;

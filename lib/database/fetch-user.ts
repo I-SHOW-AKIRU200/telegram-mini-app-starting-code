@@ -82,19 +82,13 @@ export const fetchReferredUsersNo = async (
   if (!userId) return 0;
 
   try {
-    const usersRef = collection(db, "users");
-
-    const q = query(usersRef, where("referredUserId", "==", userId));
+    const referrersRef = collection(db, "referrers");
+    const q = query(referrersRef, where("referralId", "==", userId));
     const querySnapshot = await getDocs(q);
 
-    const results = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-
-    return results.length;
+    return querySnapshot.docs.length;
   } catch (error) {
-    console.log("Error referred numbers: ", error);
+    console.log("Error getting referral count:", error);
     return 0;
   }
 };

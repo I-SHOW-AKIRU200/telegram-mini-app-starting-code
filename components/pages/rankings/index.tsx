@@ -61,16 +61,18 @@ const Rankings = () => {
         <table className="table table-zebra w-full">
           <thead className="bg-base-300">
             <tr>
-              <th className="px-6 py-3">Rank</th>
               <th className="px-6 py-3">Name</th>
               <th className="px-6 py-3">Points</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user: any, index: number) => (
-              <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-                <th className="px-6 py-4">{index + 1}</th>
-                <td className="px-6 py-4">{user.username || "Anonymous"}</td>
+              <tr key={user.id}>
+                <td className="px-6 py-4">
+                  <small className="mr-2 text-green-400">#{index + 1}</small>
+
+                  {user.username.substr(0, 20) || "Anonymous"}
+                </td>
                 <td className="px-6 py-4 font-semibold">
                   {user.points?.toLocaleString() || 0}
                 </td>

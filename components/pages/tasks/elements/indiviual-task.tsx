@@ -112,7 +112,7 @@ const IndividualTask = ({ task }: any) => {
 
         <span className="flex-3 my-auto">
           <button
-            className={`btn btn-sm ${
+            className={`btn btn-xs ${
               isTaskCompleted ? "btn-success" : "btn-active"
             }`}
             onClick={() => !isTaskCompleted && verifyTask(task)}
@@ -123,7 +123,7 @@ const IndividualTask = ({ task }: any) => {
             ) : (
               <CheckCircle />
             )}
-            {isTaskCompleted ? "Already completed" : "Done"}
+            {isTaskCompleted ? "Passed" : "Done"}
           </button>
         </span>
       </div>

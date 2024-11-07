@@ -79,7 +79,10 @@ const DashboardComponent = () => {
       </div>
 
       <div className="py-5"></div>
-      <ReferralLinkComponent referralId={userData.firebase_id} />
+      
+      {userData?.firebase_id && (
+        <ReferralLinkComponent referralId={userData.firebase_id} />
+      )}
 
       {/* <div className="text-center my-5">
         <h1 className="text-xl">

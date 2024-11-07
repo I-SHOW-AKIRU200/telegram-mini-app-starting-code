@@ -145,12 +145,12 @@ export const updateReferralId = async (
   }
 };
 
-const fetchTopUsers = async (limitCount: number = 10) => {
+export const fetchTopUsers = async (limitCount: number = 10) => {
   try {
     const usersCollection = collection(db, "users");
     const q = query(
       usersCollection,
-      orderBy("userPoints", "desc"),
+      orderBy("points", "desc"),
       limit(limitCount)
     );
 

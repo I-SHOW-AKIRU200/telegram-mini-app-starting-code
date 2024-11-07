@@ -15,7 +15,7 @@ const ReferralLinkComponent = ({ referralId }: { referralId: string }) => {
       "localhost:3000";
 
     // Construct the full URL with the referral ID
-    const referralUrl = `${baseUrl}${pathname}?referralId=${referralId}`;
+    const referralUrl = `https://t.me/bullishmarketcap_bot?start=r_${referralId}`;
     setFullUrl(referralUrl);
   }, [pathname, referralId]);
 

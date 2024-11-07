@@ -27,34 +27,34 @@ const DashboardComponent = () => {
     fetchReferredUsers();
   }, []);
 
-  useEffect(() => {
-    let isMounted = true;
+  // useEffect(() => {
+  //   let isMounted = true;
 
-    const handleReferral = async () => {
-      try {
-        const referralId = searchParams.get("referralId");
-        if (!referralId || !userData?.firebase_id || !isMounted) return;
+  //   const handleReferral = async () => {
+  //     try {
+  //       const referralId = searchParams.get("referralId");
+  //       if (!referralId || !userData?.firebase_id || !isMounted) return;
 
-        const response = await updateReferralId(
-          referralId,
-          userData.firebase_id
-        );
-        if (isMounted) {
-          console.log("Referral update response:", response);
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.error("Error storing referral ID:", error);
-        }
-      }
-    };
+  //       const response = await updateReferralId(
+  //         referralId,
+  //         userData.firebase_id
+  //       );
+  //       if (isMounted) {
+  //         console.log("Referral update response:", response);
+  //       }
+  //     } catch (error) {
+  //       if (isMounted) {
+  //         console.error("Error storing referral ID:", error);
+  //       }
+  //     }
+  //   };
 
-    handleReferral();
+  //   handleReferral();
 
-    return () => {
-      isMounted = false;
-    };
-  }, []); // Empty dependency array with cleanup
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, []);
 
   return (
     <div className="text-white px-2">

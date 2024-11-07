@@ -4,13 +4,15 @@ import { gameState, userState } from "@/states/user-state";
 import { useRecoilState } from "recoil";
 import AdvertSlider from "@/components/elements/advert-slider";
 import { useEffect, useState } from "react";
-import { fetchReferredUsersNo } from "@/lib/database/fetch-user";
-import SetReferral from "./elements/set-referral";
+import { fetchReferredUsersNo, updateReferralId } from "@/lib/database/fetch-user";
+import ReferralLinkComponent from "./elements/referral-link";
+import { useSearchParams } from "next/navigation";
 
 const DashboardComponent = () => {
   const [gameData] = useRecoilState<GameData>(gameState);
   const [userData] = useRecoilState<UserData>(userState);
   const [usersReferred, setUsersReferred] = useState<number>(1);
+  const searchParams = useSearchParams();
 
   const fetchReferredUsers = async () => {
     try {
@@ -24,6 +26,35 @@ const DashboardComponent = () => {
   useEffect(() => {
     fetchReferredUsers();
   }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const handleReferral = async () => {
+      try {
+        const referralId = searchParams.get("referralId");
+        if (!referralId || !userData?.firebase_id || !isMounted) return;
+
+        const response = await updateReferralId(
+          referralId,
+          userData.firebase_id
+        );
+        if (isMounted) {
+          console.log("Referral update response:", response);
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error storing referral ID:", error);
+        }
+      }
+    };
+
+    handleReferral();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Empty dependency array with cleanup
 
   return (
     <div className="text-white px-2">
@@ -47,7 +78,10 @@ const DashboardComponent = () => {
         </div>
       </div>
 
-      <div className="text-center my-5">
+      <div className="py-5"></div>
+      <ReferralLinkComponent referralId={userData.firebase_id} />
+
+      {/* <div className="text-center my-5">
         <h1 className="text-xl">
           <img
             src="https://png.pngtree.com/png-clipart/20230804/original/pngtree-dollar-gold-coins-image-png-image_9418049.png"
@@ -64,7 +98,7 @@ const DashboardComponent = () => {
         </p>
       </div>
 
-      <SetReferral />
+      <SetReferral /> */}
     </div>
   );
 };

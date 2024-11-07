@@ -1,10 +1,17 @@
 "use client";
 
 import localFont from "next/font/local";
+import { Barlow } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { RecoilRoot } from "recoil";
 import LayoutWrapper from "@/components/layout";
+
+const barlow = Barlow({
+  subsets: ["latin"],
+  weight: ["400", "700"], // Specify the weights you need
+  variable: "--font-primary",
+});
 
 export default function RootLayout({
   children,
@@ -19,7 +26,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body>
+      <body className={barlow.variable}>
         <RecoilRoot>
           <LayoutWrapper>{children}</LayoutWrapper>
         </RecoilRoot>

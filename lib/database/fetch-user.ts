@@ -117,13 +117,23 @@ export const updateReferralId = async (
 ): Promise<boolean> => {
   if (!referralId || !userId) return false;
 
-  const response = await checkUserExists(referralId);
-
-  if (!response) return false;
-
   try {
+    // First get the user's current document
     const docRef = doc(db, "users", userId);
+    const userDoc = await getDoc(docRef);
 
+    // Check if user exists and if they already have a referredUserId
+    if (!userDoc.exists()) return false;
+
+    const userData = userDoc.data();
+    // If referredUserId already exists, return false
+    if (userData.referredUserId) return false;
+
+    // Check if referrer exists
+    const response = await checkUserExists(referralId);
+    if (!response) return false;
+
+    // Only update if there's no existing referral
     await updateDoc(docRef, {
       referredUserId: referralId,
     });

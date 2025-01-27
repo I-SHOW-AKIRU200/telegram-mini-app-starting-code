@@ -16,33 +16,9 @@ const AdvertSlider = () => {
   const [error, setError] = useState<boolean>(false);
   const [bannerData, setBannerData] = useRecoilState<any>(bannerState);
 
-  const fetchData = async () => {
-    if (bannerData.loading) {
-      try {
-        const fetchedBanners: any = await fetchBanners();
-        if (!fetchedBanners) throw new Error("Error fetching banners");
+  const fetchData = async () => {};
 
-        setBanners(fetchedBanners);
-
-        setBannerData({
-          banner: fetchedBanners,
-          loading: false,
-        });
-      } catch (error) {
-        console.log(error);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      setBanners(bannerData.banner);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useEffect(() => {}, []);
 
   if (error) return;
 
@@ -55,36 +31,12 @@ const AdvertSlider = () => {
 
   return (
     <div className="px-3 rounded-xl ">
-      <Marquee direction="right" speed={50} pauseOnHover className="rounded-xl">
-        <img
-          src={banners.banner_1.logo}
-          onClick={() => {
-            window.location.href = banners.banner_1.link;
-          }}
-          className="h-[70px] rounded-xl mx-1 hover:cursor-pointer"
-        />
-        <img
-          src={banners.banner_2.logo}
-          onClick={() => {
-            window.location.href = banners.banner_1.link;
-          }}
-          className="h-[70px] rounded-xl mx-1 hover:cursor-pointer"
-        />
-        <img
-          src={banners.banner_3.logo}
-          onClick={() => {
-            window.location.href = banners.banner_1.link;
-          }}
-          className="h-[70px] rounded-xl mx-1 hover:cursor-pointer"
-        />
-        <img
-          src={banners.banner_4.logo}
-          onClick={() => {
-            window.location.href = banners.banner_1.link;
-          }}
-          className="h-[70px] rounded-xl mx-1 hover:cursor-pointer"
-        />
-      </Marquee>
+      <Marquee
+        direction="right"
+        speed={50}
+        pauseOnHover
+        className="rounded-xl"
+      ></Marquee>
 
       <div className="text-center">
         <a className="underline text-blue-500 mx-auto text-[9px]">

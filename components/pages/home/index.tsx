@@ -1,29 +1,36 @@
 "use client";
-
-import { GameData } from "@/lib/types/user-types";
-import { gameState, tasksState } from "@/states/user-state";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import AdvertSlider from "@/components/elements/advert-slider";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import TaskIcon from "@mui/icons-material/Task";
+import { Coins, CheckSquare, Zap, TrendingUp } from "lucide-react";
+import { gameState, tasksState } from "@/states/user-state";
+import { GameData } from "@/lib/types/user-types";
 import { levelImages } from "@/lib/validations/levels";
+import AdvertSlider from "@/components/elements/advert-slider";
 
 const HomeComponent = () => {
-  const [gameData, setGameData] = useRecoilState<GameData>(gameState);
-  const [tasksData, setTasksData] = useRecoilState<any>(tasksState);
-  const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
-    []
-  );
+  const [gameData, setGameData] = useRecoilState(gameState);
+  const [tasksData, setTasksData] = useRecoilState(tasksState);
+  const [clicks, setClicks] = useState([]);
+  const [isGlowing, setIsGlowing] = useState(false);
 
-  const pointsToAdd = gameData.pointsToAdd;
-  const profitPerHour = gameData.profitPerHour;
-
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleCardClick = (e: any) => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
+
+    // Add ripple effect
+    setClicks([
+      ...clicks,
+      {
+        id: Date.now(),
+        x: e.pageX,
+        y: e.pageY,
+        value: gameData.pointsToAdd,
+      },
+    ]);
+
+    // Add 3D rotation effect
     card.style.transform = `perspective(1000px) rotateX(${
       -y / 10
     }deg) rotateY(${x / 10}deg)`;
@@ -31,96 +38,69 @@ const HomeComponent = () => {
       card.style.transform = "";
     }, 100);
 
-    setGameData((prevState) => ({
-      ...prevState,
-      ["usersPoints"]: gameData.usersPoints + gameData.pointsToAdd,
+    // Update points
+    setGameData((prev) => ({
+      ...prev,
+      usersPoints: prev.usersPoints + prev.pointsToAdd,
     }));
-    setClicks([...clicks, { id: Date.now(), x: e.pageX, y: e.pageY }]);
+
+    // Trigger glow effect
+    setIsGlowing(true);
+    setTimeout(() => setIsGlowing(false), 300);
   };
 
-  const handleAnimationEnd = (id: number) => {
-    setClicks((prevClicks) => prevClicks.filter((click) => click.id != id));
+  const handleAnimationEnd = (id: any) => {
+    setClicks((prevClicks) => prevClicks.filter((click) => click.id !== id));
   };
 
   return (
     <>
       <AdvertSlider />
 
-      <div className="px-4 mt-2 flex justify-center">
-        <div className="px-4 flex items-center space-x-2 rounded-xl shadow-lg shadow-green-800">
-          <img
-            src="https://static.vecteezy.com/system/resources/thumbnails/020/696/236/small/3d-glossy-dollar-coin-golden-reflective-dollar-coin-3d-illustration-png.png"
-            alt="Dollar Coin"
-            className="w-10 h-10"
-          />
+      {/* Points Display with Animation */}
 
-          <p className="text-2xl text-white font-mono">
-            {gameData.usersPoints.toLocaleString()}
-          </p>
-        </div>
-      </div>
+      {/* Main Character Image with Glow Effect */}
 
-      {/* <div className="px-4 mt-4 flex justify-center">
-        <div
-          className="w-40 h-40 p-4 rounded-full circle-outer"
-          onClick={handleCardClick}
-        >
-          <div className="w-full h-full rounded-full circle-inner">
-            <img
-              src={levelImages[gameData.levelIndex]}
-              alt="Main Character"
-              className="w-40 h-40 rounded-full"
-            />
-          </div>
-        </div>
-      </div> */}
+      {/* Stats Cards with Animations */}
 
-      <div
-        className="w-[90%] h-full px-2 rounded-full mx-auto"
-        onClick={handleCardClick}
-      >
-        <img
-          src={levelImages[gameData.levelIndex]}
-          alt="Main Character"
-          className="w-full h-full rounded-full mx-auto"
-        />
-      </div>
-
-      <div className="flex flex-row gap-3 px-2">
-        <div className="flex flex-col text-center shadow-sm shadow-green-700 w-1/3 rounded-xl my-auto text-sm py-2">
-          <span className="text-orange-400">Earn per tap</span>
-          <span className="text-white">
-            <MonetizationOnIcon className="text-sm text-orange-400" />
-            {gameData.pointsToAdd}
-          </span>
-        </div>
-        <div className="flex flex-col text-center shadow-sm shadow-green-700 w-1/3 rounded-xl my-auto text-sm py-2">
-          <span className="text-blue-400 text-[10px]">Tasks Completed</span>
-          <span className="text-white">
-            <TaskIcon className="text-blue-400" />
-            {tasksData.tasksCompleted}
-          </span>
-        </div>
-        <div className="flex flex-col text-center shadow-sm shadow-green-700 w-1/3 rounded-xl my-auto text-sm py-2">
-          <span className="text-sm text-purple-400">Boost XG</span>
-          <span className="text-white">x{gameData.boostXG}</span>
-        </div>
-      </div>
-
+      {/* Floating Points Animation */}
       {clicks.map((click) => (
         <div
           key={click.id}
-          className="absolute text-5xl font-bold opacity-0 text-white pointer-events-none overflow-hidden"
+          className="absolute text-3xl font-bold text-yellow-300 pointer-events-none"
           style={{
             top: `${click.y - 42}px`,
             left: `${click.x - 28}px`,
-            animation: `float 1s ease-out`,
+            animation: "float 1s ease-out, fade 1s ease-out",
+            opacity: 0,
           }}
           onAnimationEnd={() => handleAnimationEnd(click.id)}
         >
-          {pointsToAdd}
+          +{click.value}
         </div>
       ))}
+
+      <style jsx global>{`
+        @keyframes float {
+          0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-50px) scale(1.2);
+            opacity: 0;
+          }
+        }
+
+        @keyframes fade {
+          0% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+      `}</style>
     </>
   );
 };
